@@ -1,0 +1,20 @@
+--- old/kernel/arch/dreamcast/include/dc/pvr.h	2019-08-10 13:23:29.420000000 -0400
++++ new/kernel/arch/dreamcast/include/dc/pvr.h	2019-08-10 13:41:04.920000000 -0400
+@@ -834,8 +834,15 @@
+     \return                 The packed coordinates
+ */
+ static inline uint32 PVR_PACK_16BIT_UV(float u, float v) {
+-    return (((*((uint32 *) &u)) >> 0) & 0xFFFF0000) |
+-           (((*((uint32 *) &v)) >> 16) & 0x0000FFFF);
++    union
++    {
++        float f;
++        uint32 i;
++    } _u, _v;
++    _u.f = u;
++    _v.f = v;
++    return (((*((uint32 *) &_u.i)) >> 0) & 0xFFFF0000) |
++           (((*((uint32 *) &_v.i)) >> 16) & 0x0000FFFF);
+ }
+ 
+ /** \defgroup pvr_commands          TA command values
