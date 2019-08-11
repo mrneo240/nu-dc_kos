@@ -13,8 +13,8 @@
 +    } _u, _v;
 +    _u.f = u;
 +    _v.f = v;
-+    return (((*((uint32 *) &_u.i)) >> 0) & 0xFFFF0000) |
-+           (((*((uint32 *) &_v.i)) >> 16) & 0x0000FFFF);
++    return ((_u.i >> 0) & 0xFFFF0000) |
++           ((_v.i >> 16) & 0x0000FFFF);
  }
  
  /** \defgroup pvr_commands          TA command values

@@ -2,6 +2,7 @@ FROM haydenkow/nu-dcdev:release-4.7.3-rc3 as dcdev
 FROM gcc:7.4 as builder
 MAINTAINER HaydenKow <hayden@hkowsoftware.com>
 ENV DEBIAN_FRONTEND noninteractive
+
 COPY --from=dcdev /opt/toolchains/dc /opt/toolchains/dc
 
 # Fetch sources
@@ -35,7 +36,6 @@ RUN apt-get update \
         cmake \
         make \
         git \
-#        genisoimage \
         wget \
     && echo "dash dash/sh boolean false" | debconf-set-selections \
     && dpkg-reconfigure --frontend=noninteractive dash \
@@ -52,7 +52,8 @@ RUN sed -i '1isource /opt/toolchains/dc/kos/environ.sh\' /etc/bash.bashrc \
 
 WORKDIR /src
 COPY entry.sh /usr/local/bin/
-RUN rm -rf /usr/share/locale /usr/share/man /usr/share/doc
+RUN rm -rf /usr/share/locale /usr/share/man /usr/share/doc && \
+    chmod +x /usr/local/bin/entry.sh
 ENTRYPOINT ["entry.sh"]
 SHELL ["/bin/bash", "-l", "-c", "source /opt/toolchains/dc/kos/environ.sh"]
 CMD ["bash"]
