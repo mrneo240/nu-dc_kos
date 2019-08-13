@@ -11,25 +11,16 @@ COPY pvr.patch .
 RUN mkdir -p /opt/toolchains/dc && \
 	git -C /opt/toolchains/dc/kos pull origin master && \
         git -C /opt/toolchains/dc/kos-ports pull origin master && \
-        patch -p1  < pvr.patch && rm pvr.patch
-
-# Setup KOS Environment
-WORKDIR /opt/toolchains/dc/kos/utils/dc-chain
-#COPY patch.txt .
-RUN cp /opt/toolchains/dc/kos/doc/environ.sh.sample /opt/toolchains/dc/kos/environ.sh \
-    && sed -i 's/-fno-rtti//' /opt/toolchains/dc/kos/environ_base.sh \
-    && sed -i 's/-fno-exceptions//' /opt/toolchains/dc/kos/environ_base.sh \
-    && sed -i 's/-fno-operator-names//' /opt/toolchains/dc/kos/environ_base.sh \
-    && sed -i 's/-fno-strict-aliasing//' /opt/toolchains/dc/kos/environ_base.sh
-#    && cat patch.txt && patch Makefile patch.txt && rm patch.txt \
-#    && echo 'source /opt/toolchains/dc/kos/environ.sh' >> /root/.bashrc 
-
-# Build KOS-/Ports
-WORKDIR /opt/toolchains/dc/kos
-RUN bash -c 'source /opt/toolchains/dc/kos/environ.sh ; make clean && make && make kos-ports_all'
+        cp /opt/toolchains/dc/kos/doc/environ.sh.sample /opt/toolchains/dc/kos/environ.sh && \
+        sed -i 's/-fno-rtti//' /opt/toolchains/dc/kos/environ_base.sh && \
+        sed -i 's/-fno-exceptions//' /opt/toolchains/dc/kos/environ_base.sh && \
+        sed -i 's/-fno-operator-names//' /opt/toolchains/dc/kos/environ_base.sh && \
+        sed -i 's/-fno-strict-aliasing//' /opt/toolchains/dc/kos/environ_base.sh && \
+	patch -p1  < pvr.patch && rm pvr.patch  && \
+	bash -c 'source /opt/toolchains/dc/kos/environ.sh ; make clean && make && make kos-ports_all'
 
 FROM debian:stretch
-COPY --from=dcdev /opt/toolchains/dc /opt/toolchains/dc
+COPY --from=builder /opt/toolchains/dc /opt/toolchains/dc
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends --no-upgrade \
