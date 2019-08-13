@@ -1,7 +1,7 @@
 # A Docker Image for Dreamcast Development
 
 [![](https://images.microbadger.com/badges/image/haydenkow/nu_dckos.svg)](https://microbadger.com/images/haydenkow/nu_dckos)
-[![](https://img.shields.io/docker/pulls/haydenkow/nu_dckos.svg?maxAge=604800)](https://hub.docker.com/r/haydenkow/nu_dckos/)
+[![](https://img.shields.io/docker/pulls/haydenkow/nu_dckos.svg?cacheSeconds=3600)](https://hub.docker.com/r/haydenkow/nu_dckos/)
 
 Cross-compile your Dreamcast homebrew projects inside a Docker container.
 
