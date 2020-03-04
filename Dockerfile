@@ -7,7 +7,6 @@ COPY --from=dcdev /opt/toolchains/dc /opt/toolchains/dc
 
 # Fetch sources
 WORKDIR /opt/toolchains/dc/kos
-COPY pvr.patch .
 RUN mkdir -p /opt/toolchains/dc && \
 	git -C /opt/toolchains/dc/kos pull origin master && \
         git -C /opt/toolchains/dc/kos-ports pull origin master && \
@@ -16,7 +15,6 @@ RUN mkdir -p /opt/toolchains/dc && \
         sed -i 's/-fno-exceptions//' /opt/toolchains/dc/kos/environ_base.sh && \
         sed -i 's/-fno-operator-names//' /opt/toolchains/dc/kos/environ_base.sh && \
         sed -i 's/-fno-strict-aliasing//' /opt/toolchains/dc/kos/environ_base.sh && \
-	patch -p1  < pvr.patch && rm pvr.patch  && \
 	bash -c 'source /opt/toolchains/dc/kos/environ.sh ; make clean && make && make kos-ports_all'
 
 FROM debian:stretch
