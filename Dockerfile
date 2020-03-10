@@ -30,8 +30,8 @@ RUN apt-get update \
     && dpkg-reconfigure --frontend=noninteractive dash \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* \
-    && wget https://github.com/mrneo240/nu-dc_kos/raw/master/libncurses6_6.1%2B20190803-1_amd64.deb \
-    && wget https://github.com/mrneo240/nu-dc_kos/raw/master/libtinfo6_6.1%2B20190803-1_amd64.deb \
+    && wget --no-check-certificate https://github.com/mrneo240/nu-dc_kos/raw/master/libncurses6_6.1%2B20190803-1_amd64.deb \
+    && wget --no-check-certificate https://github.com/mrneo240/nu-dc_kos/raw/master/libtinfo6_6.1%2B20190803-1_amd64.deb \
     && dpkg -i *.deb \
     && rm *.deb \
     && chmod +x /opt/toolchains/dc/kos/environ.sh
